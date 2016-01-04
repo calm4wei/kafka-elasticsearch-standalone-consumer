@@ -3,8 +3,11 @@ package org.elasticsearch.kafka.consumer.messageHandlers;
 import org.elasticsearch.client.transport.TransportClient;
 import org.elasticsearch.kafka.consumer.ConsumerConfig;
 import org.elasticsearch.kafka.consumer.MessageHandler;
+import org.elasticsearch.kafka.consumer.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.io.UnsupportedEncodingException;
 
 public class RawMessageStringHandler extends MessageHandler {
 
@@ -22,6 +25,19 @@ public class RawMessageStringHandler extends MessageHandler {
 		// in the simplest case - post as is
 		outputMessage = inputMessage;		
 		return outputMessage; 		
+	}
+
+	@Override
+	public String getId(byte[] inputMessage, Long offset) {
+		String id = null;
+		try {
+			String rawmsg = new String(inputMessage, "UTF-8");
+			JSONObject jsonObject = new JSONObject(rawmsg);
+			id = jsonObject.getString("deviceid");
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
+		}
+		return id;
 	}
 
 }

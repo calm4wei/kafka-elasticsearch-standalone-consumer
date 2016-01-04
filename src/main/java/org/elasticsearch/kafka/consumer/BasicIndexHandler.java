@@ -14,7 +14,7 @@ public class BasicIndexHandler implements IndexHandler {
 	private final ConsumerConfig config;
 	private String indexName;
 	private String indexType;
-	
+
 	public BasicIndexHandler(ConsumerConfig config) {
 		this.config = config;
 		indexName = config.esIndex;

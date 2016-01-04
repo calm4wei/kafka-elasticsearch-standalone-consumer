@@ -146,9 +146,12 @@ public class KafkaClient {
 			kafka.javaapi.TopicMetadataResponse resp = leadFindConsumer.send(req);
 
 			List<TopicMetadata> metaData = resp.topicsMetadata();
+			logger.info("metaData.size=" + metaData.size());
 			for (TopicMetadata item : metaData) {
 				for (PartitionMetadata part : item.partitionsMetadata()) {
-					if (part.partitionId() == this.partition) {
+					int id = part.partitionId();
+					logger.info("partitionId=" + id);
+					if ( id == this.partition) {
 						//System.out.println("ITS TRUE");
 						currentPartitionMetaData = part;
 					break;
@@ -156,7 +159,7 @@ public class KafkaClient {
 				}
 			}
 		} catch (Exception e) {
-			logger.error("Failed to find leader for Kafka Broker=[{}], topic=[{}], partition=[{}]; Error: {}" + 
+			logger.error("Failed to find leader for Kafka Broker=[{}], topic=[{}], partition=[{}]; Error: {}" +
 					kafkaBrokerHost, topic, partition, e.getMessage());
 			throw e;
 		} finally {

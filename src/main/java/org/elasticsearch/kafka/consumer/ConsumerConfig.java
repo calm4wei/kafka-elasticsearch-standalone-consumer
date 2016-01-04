@@ -50,6 +50,7 @@ public class ConsumerConfig {
 	public final String messageEncoding;
 	// Name of the ElasticSearch Cluster
 	public final String esClusterName;
+
 	// Name of the ElasticSearch Host Port List
 	public final String esHostPortList;
 	// IndexName in ElasticSearch to which the processed Message has to be posted

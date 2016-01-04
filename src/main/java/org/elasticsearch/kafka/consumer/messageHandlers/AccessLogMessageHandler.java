@@ -42,11 +42,17 @@ public class AccessLogMessageHandler extends MessageHandler {
 		return outputMessageStr.getBytes(); 		
 	}
 
-	public String convertToJson(String rawMsg, Long offset) throws Exception{				
+	@Override
+	public String getId(byte[] inputMessage, Long offset) {
+		return null;
+	}
+
+	public String convertToJson(String rawMsg, Long offset) throws Exception{
+		logger.info("rawMsg=" + rawMsg);
 		this.splittedMsg =  rawMsg.split("\\|");		
 		for(int i=0; i < this.splittedMsg.length; i++){
 			 this.splittedMsg[i] = this.splittedMsg[i].trim();
-		}	
+		}
 		this.accessLogMsgObj = new AccessLogMapper();
 		accessLogMsgObj.setRawMessage(rawMsg);
 		accessLogMsgObj.getKafkaMetaData().setOffset(offset);

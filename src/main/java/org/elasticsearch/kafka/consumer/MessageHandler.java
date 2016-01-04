@@ -106,6 +106,8 @@ public abstract class MessageHandler {
 	}
 
 	public abstract byte[] transformMessage(byte[] inputMessage, Long offset) throws Exception;
+
+	public abstract String getId(byte[] inputMessage, Long offset);
 	
 	public long prepareForPostToElasticSearch(Iterator<MessageAndOffset> messageAndOffsetIterator){
 		bulkRequestBuilder = esClient.prepareBulk();
@@ -134,7 +136,7 @@ public abstract class MessageHandler {
 			}
 			this.getBuildReqBuilder().add(
 				esClient.prepareIndex(
-					indexHandler.getIndexName(null), indexHandler.getIndexType(null))
+					indexHandler.getIndexName(null), indexHandler.getIndexType(null), this.getId(bytesMessage,messageAndOffset.offset()))
 					.setSource(transformedMessage)
 			);
 			numProcessedMessages++;

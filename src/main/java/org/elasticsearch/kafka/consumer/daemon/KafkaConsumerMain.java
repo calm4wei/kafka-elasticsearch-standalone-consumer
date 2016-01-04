@@ -92,7 +92,7 @@ public class KafkaConsumerMain {
     }
 	
     public static void main(String[] args) {
-    	KafkaConsumerMain driver = new KafkaConsumerMain();
+    	final KafkaConsumerMain driver = new KafkaConsumerMain();
 
     	Runtime.getRuntime().addShutdownHook(new Thread() {
   	      public void run() {
